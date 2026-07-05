@@ -1,0 +1,27 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Notebook local install target (from starter notebook)
+/workspace/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Secrets / credentials
+kaggle.json
+*.env
+.env
+
+# Raw data (ignored per project setup; keep folder via .gitkeep)
+/data/raw/*
+!/data/raw/.gitkeep
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
