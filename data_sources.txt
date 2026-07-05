@@ -1,0 +1,59 @@
+DATA SOURCES — Real-world Data Wrangling project
+=================================================
+
+This project uses two related datasets about polycyclic aromatic hydrocarbons
+(PAHs). Both the raw (pre-cleaning) and cleaned datasets are stored locally under
+the data/ folder and are included in the submission zip.
+
+
+DATASET 1 — NASA Ames PAH IR Spectroscopic Database (PAHdb)
+-----------------------------------------------------------
+Gathering method : Manual download ("Downloading files").
+Format           : XML (the complete Theoretical library, version 4.00).
+
+How the original source was obtained (email-gated web form):
+  1. Go to https://www.astrochemistry.org/pahdb/theoretical/4.00/download/view
+  2. Under "Complete database libraries", select "Theoretical".
+  3. Click "Download as XML" and enter an email address.
+  4. Open the emailed link and download the file.
+  5. Save it as: data/raw/pahdb-complete-theoretical-v4.00.xml  (~503 MB, 10,749 species)
+
+NOTE ON REPRODUCIBILITY / FILE SIZE:
+  The original XML is ~503 MB and is therefore NOT included in the zip. It is not
+  needed to run the notebook. The Dataset 1 cell parses the XML only once and caches
+  a compact extract:
+        data/raw/pahdb_theoretical_extracted.csv   (~63 MB)  [INCLUDED]
+  On every run the notebook loads this cached extract if it exists and only falls
+  back to parsing the 503 MB XML if the extract is missing. So the included extract
+  is sufficient to reproduce the entire analysis.
+
+
+DATASET 2 — PubChem (PUG REST API)
+----------------------------------
+Gathering method : Programmatic API access (code is in the notebook, Dataset 2 cell).
+Format           : CSV, fetched from the PubChem PUG REST API (NCBI/NIH).
+Source           : https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest
+
+The notebook runs a substructure search for the naphthalene core and bulk-fetches
+molecular properties. The raw API response is cached to:
+        data/raw/pubchem_pah_raw.csv   (~0.13 MB)  [INCLUDED]
+If this cache is present the notebook uses it (no internet needed); otherwise it
+re-queries the API.
+
+
+CLEANED DATA (after combining and removing variables)
+-----------------------------------------------------
+  data/cleaned/pah_molecules_clean.csv     final combined molecule-level table
+  data/cleaned/pah_transitions_clean.csv   tidy emission-line (transitions) table
+
+
+HOW TO RUN
+----------
+  1. Create a virtual environment with Python 3.14 and install dependencies:
+         py -3.14 -m venv .venv
+         .\.venv\Scripts\Activate.ps1        (Windows PowerShell)
+         pip install -r requirements.txt
+  2. Open Data_Wrangling_Project_Starter.ipynb, select the .venv kernel, and Run All.
+
+With the two included raw cache files, the notebook runs top-to-bottom with no
+internet access and without the 503 MB XML.
